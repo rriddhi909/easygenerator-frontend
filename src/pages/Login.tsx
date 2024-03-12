@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { LockOutlined } from "@mui/icons-material";
 import {
   Container,
@@ -18,6 +19,7 @@ import * as Yup from 'yup';
 
 const Login = () => {
   const navigate = useNavigate();
+  const [message, setMessage] = useState("");    
 
   return (
     <>
@@ -42,8 +44,10 @@ const Login = () => {
                   try {
                     const response = await axiosInstance.post('/login', values);
                     localStorage.setItem('access_token', response.data.access_token);
+                    setMessage('');
                     navigate('/');
                   } catch (error) {
+                    setMessage('Error trying to login');
                     console.error('Error logging in :', error);
                   }
                 }}
@@ -118,6 +122,11 @@ const Login = () => {
                   );
                 }}
               </Formik> 
+              <Grid container justifyContent="flex-start">
+                <Grid item>
+                  <h4>{message}</h4>
+                </Grid>
+              </Grid>
             <Grid container justifyContent={"flex-end"}>
               <Grid item>
                 <Link to="/register">Don't have an account? Register</Link>
