@@ -28,7 +28,8 @@ const axiosInstance: AxiosInstance = axios.create({
       return response;
     },
     (error) => {
-      if (error.response && error.response.status === 401) {
+      const currentUrl = window.location.pathname;
+      if (error.response && error.response.status === 401 && currentUrl !== '/login') {
         // Redirect to the login page for 401 status codes
         window.location.href = '/login';
       }
